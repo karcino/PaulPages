@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Site</title>
+  <meta name="description" content="A minimalist documentation site">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Docsify Theme -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  
+  <!-- Custom Minimalist Styles -->
+  <style>
+    :root {
+      --theme-color: #000;
+      --text-color: #2c3e50;
+      --background: #ffffff;
+      --code-background: #f8f8f8;
+      --border-color: #eee;
+      --blockquote-color: #666;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text-color);
+    }
+    
+    .sidebar {
+      background: var(--background);
+      border-right: 1px solid var(--border-color);
+    }
+    
+    .sidebar-toggle {
+      background: transparent;
+    }
+    
+    .markdown-section {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 30px 15px 40px;
+    }
+    
+    .markdown-section h1 {
+      font-size: 2.5rem;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      margin: 2rem 0 1rem;
+    }
+    
+    .markdown-section h2 {
+      font-size: 1.75rem;
+      font-weight: 400;
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .markdown-section h3 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin: 1.5rem 0 0.5rem;
+    }
+    
+    .markdown-section p {
+      margin: 1rem 0;
+    }
+    
+    .markdown-section blockquote {
+      border-left: 4px solid var(--theme-color);
+      padding-left: 20px;
+      margin: 2rem 0;
+      font-style: italic;
+      color: var(--blockquote-color);
+    }
+    
+    .markdown-section code {
+      background: var(--code-background);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, monospace;
+      font-size: 0.9em;
+    }
+    
+    .markdown-section pre {
+      background: var(--code-background);
+      padding: 1.5rem;
+      border-radius: 8px;
+      overflow: auto;
+      margin: 1.5rem 0;
+    }
+    
+    .markdown-section pre code {
+      background: none;
+      padding: 0;
+    }
+    
+    .markdown-section a {
+      color: var(--theme-color);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-bottom 0.3s ease;
+    }
+    
+    .markdown-section a:hover {
+      border-bottom: 1px solid var(--theme-color);
+    }
+    
+    .markdown-section img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 2rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .markdown-section table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 2rem 0;
+    }
+    
+    .markdown-section th,
+    .markdown-section td {
+      border: 1px solid var(--border-color);
+      padding: 12px;
+      text-align: left;
+    }
+    
+    .markdown-section th {
+      background: var(--code-background);
+      font-weight: 600;
+    }
+    
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --theme-color: #42b983;
+        --text-color: #c8c8c8;
+        --background: #1a1a1a;
+        --code-background: #2d2d2d;
+        --border-color: #3a3a3a;
+        --blockquote-color: #8e8e8e;
+      }
+      
+      body {
+        background: var(--background);
+      }
+      
+      .markdown-section img {
+        opacity: 0.9;
+      }
+    }
+    
+    /* Minimalist search */
+    .search {
+      border-bottom: 1px solid var(--border-color) !important;
+    }
+    
+    .search input {
+      font-family: inherit;
+      font-size: 14px;
+    }
+    
+    /* Hide unnecessary elements for ultra-minimal look */
+    .github-corner {
+      display: none;
+    }
+    
+    /* Smooth scrolling */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">Loading...</div>
+  
+  <script>
+    window.$docsify = {
+      name: 'Your Site Name',
+      repo: '', // Add your GitHub repo here if you want
+      loadSidebar: true,
+      loadNavbar: false, // Set to true if you want a navbar
+      subMaxLevel: 3,
+      auto2top: true,
+      coverpage: false, // Set to true for a landing page
+      homepage: 'README.md',
+      
+      // Search configuration
+      search: {
+        placeholder: 'Search',
+        noData: 'No results found',
+        depth: 3
+      },
+      
+      // Custom plugins
+      plugins: [
+        function(hook, vm) {
+          // Add custom rendering here if needed
+          hook.beforeEach(function(content) {
+            // Process content before rendering
+            return content;
+          });
+          
+          hook.afterEach(function(html, next) {
+            // Process HTML after rendering
+            next(html);
+          });
+        }
+      ]
+    }
+  </script>
+  
+  <!-- Docsify Core -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  
+  <!-- Plugins -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-javascript.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-markdown.min.js"></script>
+</body>
+</html>
