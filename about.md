@@ -1,0 +1,1 @@
+I'm a student, researcher and artist obsessed with the intersetion between human and technology. 
