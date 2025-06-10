@@ -101,12 +101,35 @@
       box-shadow: inset 0 0 0 1px var(--text-primary);
     }
     
+    .select-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    
     .controls select {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-      background-position: right 12px center;
-      background-repeat: no-repeat;
-      background-size: 16px;
+      background: transparent;
       padding-right: 40px;
+      position: relative;
+      min-width: 120px;
+    }
+    
+    .select-wrapper::after {
+      content: '';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--text-primary);
+      pointer-events: none;
+      transition: transform var(--transition-speed) ease;
+    }
+    
+    .select-wrapper:focus-within::after {
+      transform: translateY(-50%) rotate(180deg);
     }
     
     .controls select:hover, .controls button:hover {
@@ -309,30 +332,36 @@
     
     <div class="controls">
       <input type="text" id="sampleText" placeholder="Type your text here..." value="Minimalist Architecture">
-      <select id="fontSize">
-        <option value="24">24px</option>
-        <option value="32" selected>32px</option>
-        <option value="40">40px</option>
-        <option value="48">48px</option>
-        <option value="56">56px</option>
-      </select>
-      <select id="fontWeight">
-        <option value="100">100 Thin</option>
-        <option value="200">200 Extra Light</option>
-        <option value="300">300 Light</option>
-        <option value="400" selected>400 Regular</option>
-        <option value="500">500 Medium</option>
-        <option value="600">600 Semi Bold</option>
-        <option value="700">700 Bold</option>
-      </select>
-      <select id="filterStyle">
-        <option value="all">All Styles</option>
-        <option value="geometric">Geometric</option>
-        <option value="grotesque">Grotesque</option>
-        <option value="humanist">Humanist</option>
-        <option value="monospace">Monospace</option>
-        <option value="futuristic">Futuristic</option>
-      </select>
+      <div class="select-wrapper">
+        <select id="fontSize">
+          <option value="24">24px</option>
+          <option value="32" selected>32px</option>
+          <option value="40">40px</option>
+          <option value="48">48px</option>
+          <option value="56">56px</option>
+        </select>
+      </div>
+      <div class="select-wrapper">
+        <select id="fontWeight">
+          <option value="100">100 Thin</option>
+          <option value="200">200 Extra Light</option>
+          <option value="300">300 Light</option>
+          <option value="400" selected>400 Regular</option>
+          <option value="500">500 Medium</option>
+          <option value="600">600 Semi Bold</option>
+          <option value="700">700 Bold</option>
+        </select>
+      </div>
+      <div class="select-wrapper">
+        <select id="filterStyle">
+          <option value="all">All Styles</option>
+          <option value="geometric">Geometric</option>
+          <option value="grotesque">Grotesque</option>
+          <option value="humanist">Humanist</option>
+          <option value="monospace">Monospace</option>
+          <option value="futuristic">Futuristic</option>
+        </select>
+      </div>
       <button id="randomFont" title="Random font">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
@@ -501,21 +530,51 @@
     function setupIntersectionObserver() {
       if (observer) observer.disconnect();
       
+      const loadQueue = [];
+      let isLoading = false;
+      
+      async function processLoadQueue() {
+        if (isLoading || loadQueue.length === 0) return;
+        isLoading = true;
+        
+        // Sort by position to load top fonts first
+        loadQueue.sort((a, b) => a.top - b.top);
+        
+        const item = loadQueue.shift();
+        if (!visibleCards.has(item.fontName)) {
+          visibleCards.add(item.fontName);
+          await loadFontForCard(item.card, item.fontName, item.weights);
+        }
+        
+        isLoading = false;
+        if (loadQueue.length > 0) {
+          processLoadQueue();
+        }
+      }
+      
       observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const card = entry.target;
             const fontName = card.dataset.fontName;
             const weights = card.dataset.weights.split(',');
+            const rect = card.getBoundingClientRect();
             
             if (!visibleCards.has(fontName)) {
-              visibleCards.add(fontName);
-              loadFontForCard(card, fontName, weights);
+              loadQueue.push({
+                card,
+                fontName,
+                weights,
+                top: rect.top + window.scrollY
+              });
             }
           }
         });
+        
+        processLoadQueue();
       }, {
-        rootMargin: '100px' // Load fonts 100px before they come into view
+        rootMargin: '100px',
+        threshold: 0.01
       });
       
       document.querySelectorAll('.font-card').forEach(card => {
