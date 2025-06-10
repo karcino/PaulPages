@@ -5,21 +5,21 @@
   <title>Architectural & Minimalist Fonts</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A curated collection of minimalist and architectural fonts perfect for modern design projects">
-  
+
   <!-- Preconnect to Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  
+
   <!-- Only load essential UI fonts initially -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-  
+
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-    
+
     :root {
       --border-color: #e5e5e5;
       --text-primary: #000;
@@ -30,7 +30,7 @@
       --bg-input-hover: #f9f9f9;
       --transition-speed: 0.2s;
     }
-    
+
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg-primary);
@@ -39,7 +39,7 @@
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
-    
+
     .header {
       padding: 40px 20px;
       text-align: center;
@@ -51,20 +51,20 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
-    
+
     .header h1 {
       font-size: clamp(20px, 4vw, 24px);
       font-weight: 300;
       letter-spacing: 0.1em;
       margin-bottom: 10px;
     }
-    
+
     .header p {
       font-size: 14px;
       color: var(--text-secondary);
       letter-spacing: 0.05em;
     }
-    
+
     .controls {
       margin: 20px 0;
       display: flex;
@@ -73,7 +73,7 @@
       align-items: center;
       flex-wrap: wrap;
     }
-    
+
     .controls input, .controls select, .controls button {
       padding: 12px 16px;
       border: 1px solid var(--text-primary);
@@ -90,29 +90,29 @@
       -moz-appearance: none;
       cursor: pointer;
     }
-    
+
     .controls input {
       width: min(320px, 80vw);
       cursor: text;
     }
-    
+
     .controls input:focus, .controls select:focus, .controls button:focus {
       border-color: var(--text-primary);
       box-shadow: inset 0 0 0 1px var(--text-primary);
     }
-    
+
     .select-wrapper {
       position: relative;
       display: inline-block;
     }
-    
+
     .controls select {
       background: transparent;
       padding-right: 40px;
       position: relative;
       min-width: 120px;
     }
-    
+
     .select-wrapper::after {
       content: '';
       position: absolute;
@@ -127,31 +127,31 @@
       pointer-events: none;
       transition: transform var(--transition-speed) ease;
     }
-    
+
     .select-wrapper:focus-within::after {
       transform: translateY(-50%) rotate(180deg);
     }
-    
+
     .controls select:hover, .controls button:hover {
       background-color: var(--bg-input-hover);
     }
-    
+
     .controls button {
       display: flex;
       align-items: center;
       gap: 8px;
       font-weight: 400;
     }
-    
+
     .controls button:active {
       transform: scale(0.98);
     }
-    
+
     .controls button svg {
       width: 16px;
       height: 16px;
     }
-    
+
     .stats {
       text-align: center;
       padding: 20px;
@@ -159,7 +159,7 @@
       color: var(--text-secondary);
       letter-spacing: 0.05em;
     }
-    
+
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -167,7 +167,7 @@
       background: var(--border-color);
       min-height: 50vh;
     }
-    
+
     .font-card {
       background: var(--bg-primary);
       padding: 40px 30px;
@@ -179,15 +179,15 @@
       position: relative;
       overflow: hidden;
     }
-    
+
     .font-card:hover {
       background: var(--bg-hover);
     }
-    
+
     .font-card.loading {
       opacity: 0.6;
     }
-    
+
     .font-card.loading::after {
       content: '';
       position: absolute;
@@ -198,11 +198,11 @@
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
       animation: shimmer 1.5s infinite;
     }
-    
+
     @keyframes shimmer {
       to { left: 100%; }
     }
-    
+
     .font-name {
       font-family: 'Inter', sans-serif;
       font-size: 12px;
@@ -214,18 +214,18 @@
       align-items: center;
       justify-content: space-between;
     }
-    
+
     .font-actions {
       display: flex;
       gap: 10px;
       opacity: 0;
       transition: opacity var(--transition-speed) ease;
     }
-    
+
     .font-card:hover .font-actions {
       opacity: 1;
     }
-    
+
     .font-actions button {
       background: none;
       border: none;
@@ -234,16 +234,16 @@
       color: var(--text-secondary);
       transition: color var(--transition-speed) ease;
     }
-    
+
     .font-actions button:hover {
       color: var(--text-primary);
     }
-    
+
     .font-actions svg {
       width: 16px;
       height: 16px;
     }
-    
+
     .font-sample {
       font-size: 32px;
       line-height: 1.2;
@@ -251,20 +251,20 @@
       word-break: break-word;
       min-height: 40px;
     }
-    
+
     .font-sample.placeholder {
       font-family: 'Inter', sans-serif;
       color: var(--text-tertiary);
       font-style: italic;
     }
-    
+
     .font-details {
       font-family: 'Inter', sans-serif;
       font-size: 11px;
       color: var(--text-tertiary);
       letter-spacing: 0.05em;
     }
-    
+
     .loading-more {
       grid-column: 1 / -1;
       text-align: center;
@@ -272,7 +272,7 @@
       color: var(--text-secondary);
       font-size: 14px;
     }
-    
+
     .toast {
       position: fixed;
       bottom: 20px;
@@ -288,26 +288,26 @@
       pointer-events: none;
       z-index: 1000;
     }
-    
+
     .toast.show {
       opacity: 1;
       transform: translateY(0);
     }
-    
+
     @media (max-width: 768px) {
       .grid {
         grid-template-columns: 1fr;
       }
-      
+
       .font-sample {
         font-size: 28px;
       }
-      
+
       .controls {
         padding: 0 10px;
       }
     }
-    
+
     @media (prefers-color-scheme: dark) {
       :root {
         --border-color: #2a2a2a;
@@ -318,7 +318,7 @@
         --bg-hover: #1a1a1a;
         --bg-input-hover: #222;
       }
-      
+
       .controls select {
         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
       }
@@ -326,289 +326,289 @@
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>Architectural & Minimalist Typography</h1>
-    <p>Classic fonts for architects and designers</p>
-    
-    <div class="controls">
-      <input type="text" id="sampleText" placeholder="Type your text here..." value="Minimalist Architecture">
-      <div class="select-wrapper">
-        <select id="fontSize">
-          <option value="24">24px</option>
-          <option value="32" selected>32px</option>
-          <option value="40">40px</option>
-          <option value="48">48px</option>
-          <option value="56">56px</option>
-        </select>
-      </div>
-      <div class="select-wrapper">
-        <select id="fontWeight">
-          <option value="100">100 Thin</option>
-          <option value="200">200 Extra Light</option>
-          <option value="300">300 Light</option>
-          <option value="400" selected>400 Regular</option>
-          <option value="500">500 Medium</option>
-          <option value="600">600 Semi Bold</option>
-          <option value="700">700 Bold</option>
-        </select>
-      </div>
-      <div class="select-wrapper">
-        <select id="filterStyle">
-          <option value="all">All Styles</option>
-          <option value="geometric">Geometric</option>
-          <option value="grotesque">Grotesque</option>
-          <option value="humanist">Humanist</option>
-          <option value="monospace">Monospace</option>
-          <option value="futuristic">Futuristic</option>
-        </select>
-      </div>
-      <button id="randomFont" title="Random font">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-        </svg>
-        Random
-      </button>
+<div class="header">
+  <h1>Architectural & Minimalist Typography</h1>
+  <p>Classic fonts for architects and designers</p>
+
+  <div class="controls">
+    <input type="text" id="sampleText" placeholder="Type your text here..." value="Minimalist Architecture">
+    <div class="select-wrapper">
+      <select id="fontSize">
+        <option value="24">24px</option>
+        <option value="32" selected>32px</option>
+        <option value="40">40px</option>
+        <option value="48">48px</option>
+        <option value="56">56px</option>
+      </select>
     </div>
+    <div class="select-wrapper">
+      <select id="fontWeight">
+        <option value="100">100 Thin</option>
+        <option value="200">200 Extra Light</option>
+        <option value="300">300 Light</option>
+        <option value="400" selected>400 Regular</option>
+        <option value="500">500 Medium</option>
+        <option value="600">600 Semi Bold</option>
+        <option value="700">700 Bold</option>
+      </select>
+    </div>
+    <div class="select-wrapper">
+      <select id="filterStyle">
+        <option value="all">All Styles</option>
+        <option value="geometric">Geometric</option>
+        <option value="grotesque">Grotesque</option>
+        <option value="humanist">Humanist</option>
+        <option value="monospace">Monospace</option>
+        <option value="futuristic">Futuristic</option>
+      </select>
+    </div>
+    <button id="randomFont" title="Random font">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+      </svg>
+      Random
+    </button>
   </div>
-  
-  <div class="stats" id="stats">Loading fonts...</div>
-  <div class="grid" id="fontGrid"></div>
-  <div class="toast" id="toast"></div>
+</div>
 
-  <script>
-    const fonts = [
-      // Helvetica-inspired & Grotesque
-      { name: 'Inter', family: 'Inter', style: 'grotesque', weights: ['100','200','300','400','500','600','700'] },
-      { name: 'Work Sans', family: 'Work Sans', style: 'grotesque', weights: ['100','200','300','400','500','600','700'] },
-      { name: 'Source Sans Pro', family: 'Source Sans Pro', style: 'grotesque', weights: ['200','300','400','600','700'] },
-      { name: 'Fira Sans', family: 'Fira Sans', style: 'grotesque', weights: ['100','200','300','400','500','600','700'] },
-      { name: 'Open Sans', family: 'Open Sans', style: 'humanist', weights: ['300','400','500','600','700'] },
-      { name: 'Roboto', family: 'Roboto', style: 'grotesque', weights: ['100','300','400','500','700'] },
-      { name: 'Lato', family: 'Lato', style: 'humanist', weights: ['100','300','400','700','900'] },
-      
-      // Geometric (Futura-inspired)
-      { name: 'Montserrat', family: 'Montserrat', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Poppins', family: 'Poppins', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Nunito', family: 'Nunito', style: 'geometric', weights: ['200','300','400','500','600','700','800','900'] },
-      { name: 'Raleway', family: 'Raleway', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Quicksand', family: 'Quicksand', style: 'geometric', weights: ['300','400','500','600','700'] },
-      { name: 'Comfortaa', family: 'Comfortaa', style: 'geometric', weights: ['300','400','500','600','700'] },
-      { name: 'Varela Round', family: 'Varela Round', style: 'geometric', weights: ['400'] },
-      { name: 'Questrial', family: 'Questrial', style: 'geometric', weights: ['400'] },
-      
-      // Modern Grotesque
-      { name: 'Public Sans', family: 'Public Sans', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'DM Sans', family: 'DM Sans', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Space Grotesk', family: 'Space Grotesk', style: 'grotesque', weights: ['300','400','500','600','700'] },
-      { name: 'Manrope', family: 'Manrope', style: 'grotesque', weights: ['200','300','400','500','600','700','800'] },
-      { name: 'Plus Jakarta Sans', family: 'Plus Jakarta Sans', style: 'grotesque', weights: ['200','300','400','500','600','700','800'] },
-      { name: 'Outfit', family: 'Outfit', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Epilogue', family: 'Epilogue', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Inter Tight', family: 'Inter Tight', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Instrument Sans', family: 'Instrument Sans', style: 'grotesque', weights: ['400','500','600','700'] },
-      
-      // Bauhaus & Minimalist
-      { name: 'Red Hat Display', family: 'Red Hat Display', style: 'geometric', weights: ['300','400','500','600','700','800','900'] },
-      { name: 'Red Hat Text', family: 'Red Hat Text', style: 'grotesque', weights: ['300','400','500','600','700'] },
-      { name: 'Ubuntu', family: 'Ubuntu', style: 'humanist', weights: ['300','400','500','700'] },
-      { name: 'Rubik', family: 'Rubik', style: 'geometric', weights: ['300','400','500','600','700','800','900'] },
-      { name: 'Barlow', family: 'Barlow', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Titillium Web', family: 'Titillium Web', style: 'grotesque', weights: ['200','300','400','600','700','900'] },
-      
-      // DIN-inspired
-      { name: 'Commissioner', family: 'Commissioner', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Lexend', family: 'Lexend', style: 'humanist', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Sora', family: 'Sora', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800'] },
-      { name: 'Be Vietnam Pro', family: 'Be Vietnam Pro', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Figtree', family: 'Figtree', style: 'grotesque', weights: ['300','400','500','600','700','800','900'] },
-      
-      // Architectural Classics
-      { name: 'Karla', family: 'Karla', style: 'grotesque', weights: ['200','300','400','500','600','700','800'] },
-      { name: 'Cabin', family: 'Cabin', style: 'humanist', weights: ['400','500','600','700'] },
-      { name: 'Oxygen', family: 'Oxygen', style: 'grotesque', weights: ['300','400','700'] },
-      { name: 'Asap', family: 'Asap', style: 'humanist', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Catamaran', family: 'Catamaran', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      
-      // Contemporary Minimalist
-      { name: 'Exo 2', family: 'Exo 2', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Rajdhani', family: 'Rajdhani', style: 'grotesque', weights: ['300','400','500','600','700'] },
-      { name: 'Saira', family: 'Saira', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Oswald', family: 'Oswald', style: 'grotesque', weights: ['200','300','400','500','600','700'] },
-      { name: 'Roboto Condensed', family: 'Roboto Condensed', style: 'grotesque', weights: ['300','400','700'] },
-      { name: 'Archivo', family: 'Archivo', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      
-      // International & Modern
-      { name: 'Kanit', family: 'Kanit', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Heebo', family: 'Heebo', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Overpass', family: 'Overpass', style: 'humanist', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Spartan', family: 'Spartan', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Prompt', family: 'Prompt', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      
-      // Monospace (Architectural)
-      { name: 'Fira Code', family: 'Fira Code', style: 'monospace', weights: ['300','400','500','600','700'] },
-      { name: 'JetBrains Mono', family: 'JetBrains Mono', style: 'monospace', weights: ['100','200','300','400','500','600','700','800'] },
-      { name: 'Source Code Pro', family: 'Source Code Pro', style: 'monospace', weights: ['200','300','400','500','600','700','800','900'] },
-      { name: 'Space Mono', family: 'Space Mono', style: 'monospace', weights: ['400','700'] },
-      { name: 'IBM Plex Sans', family: 'IBM Plex Sans', style: 'grotesque', weights: ['100','200','300','400','500','600','700'] },
-      { name: 'IBM Plex Mono', family: 'IBM Plex Mono', style: 'monospace', weights: ['100','200','300','400','500','600','700'] },
-      { name: 'Overpass Mono', family: 'Overpass Mono', style: 'monospace', weights: ['300','400','500','600','700'] },
-      
-      // Minimalist & Contemporary
-      { name: 'Mukta', family: 'Mukta', style: 'grotesque', weights: ['200','300','400','500','600','700','800'] },
-      { name: 'Jost', family: 'Jost', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'M PLUS 1p', family: 'M PLUS 1p', style: 'grotesque', weights: ['100','300','400','500','700','800','900'] },
-      { name: 'Noto Sans', family: 'Noto Sans', style: 'humanist', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'Hind', family: 'Hind', style: 'humanist', weights: ['300','400','500','600','700'] },
-      { name: 'Signika', family: 'Signika', style: 'humanist', weights: ['300','400','500','600','700'] },
-      { name: 'Signika Negative', family: 'Signika Negative', style: 'humanist', weights: ['300','400','500','600','700'] },
-      { name: 'Secular One', family: 'Secular One', style: 'grotesque', weights: ['400'] },
-      { name: 'Alata', family: 'Alata', style: 'grotesque', weights: ['400'] },
-      { name: 'Darker Grotesque', family: 'Darker Grotesque', style: 'grotesque', weights: ['300','400','500','600','700','800','900'] },
-      { name: 'Maven Pro', family: 'Maven Pro', style: 'grotesque', weights: ['400','500','600','700','800','900'] },
-      { name: 'Mulish', family: 'Mulish', style: 'grotesque', weights: ['200','300','400','500','600','700','800','900'] },
-      { name: 'Hind Siliguri', family: 'Hind Siliguri', style: 'humanist', weights: ['300','400','500','600','700'] },
-      { name: 'Gothic A1', family: 'Gothic A1', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
-      { name: 'K2D', family: 'K2D', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800'] },
-      
-      // Futuristic & Architectural
-      { name: 'Orbitron', family: 'Orbitron', style: 'futuristic', weights: ['400','500','600','700','800','900'] },
-      { name: 'Michroma', family: 'Michroma', style: 'futuristic', weights: ['400'] },
-      { name: 'Audiowide', family: 'Audiowide', style: 'futuristic', weights: ['400'] },
-      { name: 'Syncopate', family: 'Syncopate', style: 'futuristic', weights: ['400','700'] },
-      { name: 'Electrolize', family: 'Electrolize', style: 'futuristic', weights: ['400'] },
-      { name: 'Gruppo', family: 'Gruppo', style: 'futuristic', weights: ['400'] },
-      
-      // Display & Statement
-      { name: 'Righteous', family: 'Righteous', style: 'geometric', weights: ['400'] },
-      { name: 'Staatliches', family: 'Staatliches', style: 'grotesque', weights: ['400'] },
-      { name: 'Squada One', family: 'Squada One', style: 'grotesque', weights: ['400'] },
-      { name: 'Anton', family: 'Anton', style: 'grotesque', weights: ['400'] },
-      { name: 'Bebas Neue', family: 'Bebas Neue', style: 'grotesque', weights: ['400'] },
-      { name: 'Fjalla One', family: 'Fjalla One', style: 'grotesque', weights: ['400'] },
-      { name: 'Russo One', family: 'Russo One', style: 'grotesque', weights: ['400'] },
-      { name: 'Bungee', family: 'Bungee', style: 'geometric', weights: ['400'] },
-      { name: 'Teko', family: 'Teko', style: 'grotesque', weights: ['300','400','500','600','700'] }
-    ];
+<div class="stats" id="stats">Loading fonts...</div>
+<div class="grid" id="fontGrid"></div>
+<div class="toast" id="toast"></div>
 
-    // State management
-    let currentFonts = fonts;
-    let loadedFonts = new Set(['Inter']); // Track loaded fonts
-    let visibleCards = new Set();
-    let observer = null;
-    
-    // Font loading with caching
-    const fontCache = new Map();
-    
-    async function loadFont(fontName, weights) {
-      if (loadedFonts.has(fontName)) return;
-      
-      const cacheKey = `${fontName}:${weights.join(',')}`;
-      if (fontCache.has(cacheKey)) return;
-      
-      try {
-        const weightsParam = weights.map(w => `wght@${w}`).join(';');
-        const fontUrl = `https://fonts.googleapis.com/css2?family=${fontName.replace(' ', '+')}:${weightsParam}&display=swap`;
-        
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = fontUrl;
-        
-        await new Promise((resolve, reject) => {
-          link.onload = resolve;
-          link.onerror = reject;
-          document.head.appendChild(link);
-        });
-        
-        loadedFonts.add(fontName);
-        fontCache.set(cacheKey, true);
-      } catch (error) {
-        console.error(`Failed to load font: ${fontName}`, error);
-      }
+<script>
+  const fonts = [
+    // Helvetica-inspired & Grotesque
+    { name: 'Inter', family: 'Inter', style: 'grotesque', weights: ['100','200','300','400','500','600','700'] },
+    { name: 'Work Sans', family: 'Work Sans', style: 'grotesque', weights: ['100','200','300','400','500','600','700'] },
+    { name: 'Source Sans Pro', family: 'Source Sans Pro', style: 'grotesque', weights: ['200','300','400','600','700'] },
+    { name: 'Fira Sans', family: 'Fira Sans', style: 'grotesque', weights: ['100','200','300','400','500','600','700'] },
+    { name: 'Open Sans', family: 'Open Sans', style: 'humanist', weights: ['300','400','500','600','700'] },
+    { name: 'Roboto', family: 'Roboto', style: 'grotesque', weights: ['100','300','400','500','700'] },
+    { name: 'Lato', family: 'Lato', style: 'humanist', weights: ['100','300','400','700','900'] },
+
+    // Geometric (Futura-inspired)
+    { name: 'Montserrat', family: 'Montserrat', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Poppins', family: 'Poppins', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Nunito', family: 'Nunito', style: 'geometric', weights: ['200','300','400','500','600','700','800','900'] },
+    { name: 'Raleway', family: 'Raleway', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Quicksand', family: 'Quicksand', style: 'geometric', weights: ['300','400','500','600','700'] },
+    { name: 'Comfortaa', family: 'Comfortaa', style: 'geometric', weights: ['300','400','500','600','700'] },
+    { name: 'Varela Round', family: 'Varela Round', style: 'geometric', weights: ['400'] },
+    { name: 'Questrial', family: 'Questrial', style: 'geometric', weights: ['400'] },
+
+    // Modern Grotesque
+    { name: 'Public Sans', family: 'Public Sans', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'DM Sans', family: 'DM Sans', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Space Grotesk', family: 'Space Grotesk', style: 'grotesque', weights: ['300','400','500','600','700'] },
+    { name: 'Manrope', family: 'Manrope', style: 'grotesque', weights: ['200','300','400','500','600','700','800'] },
+    { name: 'Plus Jakarta Sans', family: 'Plus Jakarta Sans', style: 'grotesque', weights: ['200','300','400','500','600','700','800'] },
+    { name: 'Outfit', family: 'Outfit', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Epilogue', family: 'Epilogue', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Inter Tight', family: 'Inter Tight', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Instrument Sans', family: 'Instrument Sans', style: 'grotesque', weights: ['400','500','600','700'] },
+
+    // Bauhaus & Minimalist
+    { name: 'Red Hat Display', family: 'Red Hat Display', style: 'geometric', weights: ['300','400','500','600','700','800','900'] },
+    { name: 'Red Hat Text', family: 'Red Hat Text', style: 'grotesque', weights: ['300','400','500','600','700'] },
+    { name: 'Ubuntu', family: 'Ubuntu', style: 'humanist', weights: ['300','400','500','700'] },
+    { name: 'Rubik', family: 'Rubik', style: 'geometric', weights: ['300','400','500','600','700','800','900'] },
+    { name: 'Barlow', family: 'Barlow', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Titillium Web', family: 'Titillium Web', style: 'grotesque', weights: ['200','300','400','600','700','900'] },
+
+    // DIN-inspired
+    { name: 'Commissioner', family: 'Commissioner', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Lexend', family: 'Lexend', style: 'humanist', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Sora', family: 'Sora', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800'] },
+    { name: 'Be Vietnam Pro', family: 'Be Vietnam Pro', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Figtree', family: 'Figtree', style: 'grotesque', weights: ['300','400','500','600','700','800','900'] },
+
+    // Architectural Classics
+    { name: 'Karla', family: 'Karla', style: 'grotesque', weights: ['200','300','400','500','600','700','800'] },
+    { name: 'Cabin', family: 'Cabin', style: 'humanist', weights: ['400','500','600','700'] },
+    { name: 'Oxygen', family: 'Oxygen', style: 'grotesque', weights: ['300','400','700'] },
+    { name: 'Asap', family: 'Asap', style: 'humanist', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Catamaran', family: 'Catamaran', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+
+    // Contemporary Minimalist
+    { name: 'Exo 2', family: 'Exo 2', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Rajdhani', family: 'Rajdhani', style: 'grotesque', weights: ['300','400','500','600','700'] },
+    { name: 'Saira', family: 'Saira', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Oswald', family: 'Oswald', style: 'grotesque', weights: ['200','300','400','500','600','700'] },
+    { name: 'Roboto Condensed', family: 'Roboto Condensed', style: 'grotesque', weights: ['300','400','700'] },
+    { name: 'Archivo', family: 'Archivo', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+
+    // International & Modern
+    { name: 'Kanit', family: 'Kanit', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Heebo', family: 'Heebo', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Overpass', family: 'Overpass', style: 'humanist', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Spartan', family: 'Spartan', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Prompt', family: 'Prompt', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+
+    // Monospace (Architectural)
+    { name: 'Fira Code', family: 'Fira Code', style: 'monospace', weights: ['300','400','500','600','700'] },
+    { name: 'JetBrains Mono', family: 'JetBrains Mono', style: 'monospace', weights: ['100','200','300','400','500','600','700','800'] },
+    { name: 'Source Code Pro', family: 'Source Code Pro', style: 'monospace', weights: ['200','300','400','500','600','700','800','900'] },
+    { name: 'Space Mono', family: 'Space Mono', style: 'monospace', weights: ['400','700'] },
+    { name: 'IBM Plex Sans', family: 'IBM Plex Sans', style: 'grotesque', weights: ['100','200','300','400','500','600','700'] },
+    { name: 'IBM Plex Mono', family: 'IBM Plex Mono', style: 'monospace', weights: ['100','200','300','400','500','600','700'] },
+    { name: 'Overpass Mono', family: 'Overpass Mono', style: 'monospace', weights: ['300','400','500','600','700'] },
+
+    // Minimalist & Contemporary
+    { name: 'Mukta', family: 'Mukta', style: 'grotesque', weights: ['200','300','400','500','600','700','800'] },
+    { name: 'Jost', family: 'Jost', style: 'geometric', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'M PLUS 1p', family: 'M PLUS 1p', style: 'grotesque', weights: ['100','300','400','500','700','800','900'] },
+    { name: 'Noto Sans', family: 'Noto Sans', style: 'humanist', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'Hind', family: 'Hind', style: 'humanist', weights: ['300','400','500','600','700'] },
+    { name: 'Signika', family: 'Signika', style: 'humanist', weights: ['300','400','500','600','700'] },
+    { name: 'Signika Negative', family: 'Signika Negative', style: 'humanist', weights: ['300','400','500','600','700'] },
+    { name: 'Secular One', family: 'Secular One', style: 'grotesque', weights: ['400'] },
+    { name: 'Alata', family: 'Alata', style: 'grotesque', weights: ['400'] },
+    { name: 'Darker Grotesque', family: 'Darker Grotesque', style: 'grotesque', weights: ['300','400','500','600','700','800','900'] },
+    { name: 'Maven Pro', family: 'Maven Pro', style: 'grotesque', weights: ['400','500','600','700','800','900'] },
+    { name: 'Mulish', family: 'Mulish', style: 'grotesque', weights: ['200','300','400','500','600','700','800','900'] },
+    { name: 'Hind Siliguri', family: 'Hind Siliguri', style: 'humanist', weights: ['300','400','500','600','700'] },
+    { name: 'Gothic A1', family: 'Gothic A1', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800','900'] },
+    { name: 'K2D', family: 'K2D', style: 'grotesque', weights: ['100','200','300','400','500','600','700','800'] },
+
+    // Futuristic & Architectural
+    { name: 'Orbitron', family: 'Orbitron', style: 'futuristic', weights: ['400','500','600','700','800','900'] },
+    { name: 'Michroma', family: 'Michroma', style: 'futuristic', weights: ['400'] },
+    { name: 'Audiowide', family: 'Audiowide', style: 'futuristic', weights: ['400'] },
+    { name: 'Syncopate', family: 'Syncopate', style: 'futuristic', weights: ['400','700'] },
+    { name: 'Electrolize', family: 'Electrolize', style: 'futuristic', weights: ['400'] },
+    { name: 'Gruppo', family: 'Gruppo', style: 'futuristic', weights: ['400'] },
+
+    // Display & Statement
+    { name: 'Righteous', family: 'Righteous', style: 'geometric', weights: ['400'] },
+    { name: 'Staatliches', family: 'Staatliches', style: 'grotesque', weights: ['400'] },
+    { name: 'Squada One', family: 'Squada One', style: 'grotesque', weights: ['400'] },
+    { name: 'Anton', family: 'Anton', style: 'grotesque', weights: ['400'] },
+    { name: 'Bebas Neue', family: 'Bebas Neue', style: 'grotesque', weights: ['400'] },
+    { name: 'Fjalla One', family: 'Fjalla One', style: 'grotesque', weights: ['400'] },
+    { name: 'Russo One', family: 'Russo One', style: 'grotesque', weights: ['400'] },
+    { name: 'Bungee', family: 'Bungee', style: 'geometric', weights: ['400'] },
+    { name: 'Teko', family: 'Teko', style: 'grotesque', weights: ['300','400','500','600','700'] }
+  ];
+
+  // State management
+  let currentFonts = fonts;
+  let loadedFonts = new Set(['Inter']); // Track loaded fonts
+  let visibleCards = new Set();
+  let observer = null;
+
+  // Font loading with caching
+  const fontCache = new Map();
+
+  async function loadFont(fontName, weights) {
+    if (loadedFonts.has(fontName)) return;
+
+    const cacheKey = `${fontName}:${weights.join(',')}`;
+    if (fontCache.has(cacheKey)) return;
+
+    try {
+      const weightsParam = weights.map(w => `wght@${w}`).join(';');
+      const fontUrl = `https://fonts.googleapis.com/css2?family=${fontName.replace(' ', '+')}:${weightsParam}&display=swap`;
+
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = fontUrl;
+
+      await new Promise((resolve, reject) => {
+        link.onload = resolve;
+        link.onerror = reject;
+        document.head.appendChild(link);
+      });
+
+      loadedFonts.add(fontName);
+      fontCache.set(cacheKey, true);
+    } catch (error) {
+      console.error(`Failed to load font: ${fontName}`, error);
     }
-    
-    // Intersection Observer for lazy loading
-    function setupIntersectionObserver() {
-      if (observer) observer.disconnect();
-      
-      const loadQueue = [];
-      let isLoading = false;
-      
-      async function processLoadQueue() {
-        if (isLoading || loadQueue.length === 0) return;
-        isLoading = true;
-        
-        // Sort by position to load top fonts first
-        loadQueue.sort((a, b) => a.top - b.top);
-        
-        const item = loadQueue.shift();
-        if (!visibleCards.has(item.fontName)) {
-          visibleCards.add(item.fontName);
-          await loadFontForCard(item.card, item.fontName, item.weights);
-        }
-        
-        isLoading = false;
-        if (loadQueue.length > 0) {
-          processLoadQueue();
-        }
+  }
+
+  // Intersection Observer for lazy loading
+  function setupIntersectionObserver() {
+    if (observer) observer.disconnect();
+
+    const loadQueue = [];
+    let isLoading = false;
+
+    async function processLoadQueue() {
+      if (isLoading || loadQueue.length === 0) return;
+      isLoading = true;
+
+      // Sort by position to load top fonts first
+      loadQueue.sort((a, b) => a.top - b.top);
+
+      const item = loadQueue.shift();
+      if (!visibleCards.has(item.fontName)) {
+        visibleCards.add(item.fontName);
+        await loadFontForCard(item.card, item.fontName, item.weights);
       }
-      
-      observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const card = entry.target;
-            const fontName = card.dataset.fontName;
-            const weights = card.dataset.weights.split(',');
-            const rect = card.getBoundingClientRect();
-            
-            if (!visibleCards.has(fontName)) {
-              loadQueue.push({
-                card,
-                fontName,
-                weights,
-                top: rect.top + window.scrollY
-              });
-            }
-          }
-        });
-        
+
+      isLoading = false;
+      if (loadQueue.length > 0) {
         processLoadQueue();
-      }, {
-        rootMargin: '100px',
-        threshold: 0.01
-      });
-      
-      document.querySelectorAll('.font-card').forEach(card => {
-        observer.observe(card);
-      });
+      }
     }
-    
-    async function loadFontForCard(card, fontName, weights) {
-      card.classList.add('loading');
-      
-      await loadFont(fontName, weights);
-      
-      const sample = card.querySelector('.font-sample');
-      const currentWeight = document.getElementById('fontWeight').value;
-      const hasWeight = weights.includes(currentWeight);
-      const weight = hasWeight ? currentWeight : weights[Math.floor(weights.length / 2)];
-      
-      sample.style.fontFamily = `'${fontName}', sans-serif`;
-      sample.style.fontWeight = weight;
-      sample.classList.remove('placeholder');
-      
-      card.classList.remove('loading');
-      updateStats();
-    }
-    
-    function renderFonts() {
-      const grid = document.getElementById('fontGrid');
-      const sampleText = document.getElementById('sampleText').value || 'Minimalist Architecture';
-      const fontSize = document.getElementById('fontSize').value + 'px';
-      
-      grid.innerHTML = currentFonts.map(font => {
-        const isLoaded = loadedFonts.has(font.name);
-        
-        return `
+
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card = entry.target;
+          const fontName = card.dataset.fontName;
+          const weights = card.dataset.weights.split(',');
+          const rect = card.getBoundingClientRect();
+
+          if (!visibleCards.has(fontName)) {
+            loadQueue.push({
+              card,
+              fontName,
+              weights,
+              top: rect.top + window.scrollY
+            });
+          }
+        }
+      });
+
+      processLoadQueue();
+    }, {
+      rootMargin: '100px',
+      threshold: 0.01
+    });
+
+    document.querySelectorAll('.font-card').forEach(card => {
+      observer.observe(card);
+    });
+  }
+
+  async function loadFontForCard(card, fontName, weights) {
+    card.classList.add('loading');
+
+    await loadFont(fontName, weights);
+
+    const sample = card.querySelector('.font-sample');
+    const currentWeight = document.getElementById('fontWeight').value;
+    const hasWeight = weights.includes(currentWeight);
+    const weight = hasWeight ? currentWeight : weights[Math.floor(weights.length / 2)];
+
+    sample.style.fontFamily = `'${fontName}', sans-serif`;
+    sample.style.fontWeight = weight;
+    sample.classList.remove('placeholder');
+
+    card.classList.remove('loading');
+    updateStats();
+  }
+
+  function renderFonts() {
+    const grid = document.getElementById('fontGrid');
+    const sampleText = document.getElementById('sampleText').value || 'Minimalist Architecture';
+    const fontSize = document.getElementById('fontSize').value + 'px';
+
+    grid.innerHTML = currentFonts.map(font => {
+      const isLoaded = loadedFonts.has(font.name);
+
+      return `
           <div class="font-card" data-font-name="${font.name}" data-weights="${font.weights.join(',')}">
             <div class="font-name">
               ${font.name}
@@ -631,86 +631,86 @@
             <div class="font-details">${font.style} • ${font.weights.length} weights • Google Fonts</div>
           </div>
         `;
-      }).join('');
-      
-      setupIntersectionObserver();
-      updateStats();
-    }
-    
-    function filterFonts() {
-      const style = document.getElementById('filterStyle').value;
-      currentFonts = style === 'all' ? fonts : fonts.filter(font => font.style === style);
-      visibleCards.clear();
-      renderFonts();
-    }
-    
-    function updateStats() {
-      const stats = document.getElementById('stats');
-      const loadedCount = visibleCards.size;
-      const totalCount = currentFonts.length;
-      stats.textContent = `Showing ${loadedCount} of ${totalCount} fonts`;
-    }
-    
-    // Utility functions
-    function copyFontName(fontName) {
-      navigator.clipboard.writeText(fontName).then(() => {
-        showToast(`Copied "${fontName}" to clipboard`);
-      });
-    }
-    
-    function openGoogleFonts(fontName) {
-      const url = `https://fonts.google.com/specimen/${fontName.replace(' ', '+')}`;
-      window.open(url, '_blank');
-    }
-    
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.classList.add('show');
-      
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
-    
-    function getRandomFont() {
-      const randomFont = currentFonts[Math.floor(Math.random() * currentFonts.length)];
-      const card = document.querySelector(`[data-font-name="${randomFont.name}"]`);
-      
-      if (card) {
-        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        card.style.background = 'var(--bg-hover)';
-        setTimeout(() => {
-          card.style.background = '';
-        }, 1000);
-      }
-    }
-    
-    // Event listeners
-    document.getElementById('sampleText').addEventListener('input', renderFonts);
-    document.getElementById('fontSize').addEventListener('change', renderFonts);
-    document.getElementById('fontWeight').addEventListener('change', renderFonts);
-    document.getElementById('filterStyle').addEventListener('change', filterFonts);
-    document.getElementById('randomFont').addEventListener('click', getRandomFont);
-    
-    // Debounce text input
-    let textTimeout;
-    document.getElementById('sampleText').addEventListener('input', (e) => {
-      clearTimeout(textTimeout);
-      textTimeout = setTimeout(() => renderFonts(), 300);
-    });
-    
-    // Initialize
+    }).join('');
+
+    setupIntersectionObserver();
+    updateStats();
+  }
+
+  function filterFonts() {
+    const style = document.getElementById('filterStyle').value;
+    currentFonts = style === 'all' ? fonts : fonts.filter(font => font.style === style);
+    visibleCards.clear();
     renderFonts();
-    
-    // Preload top fonts in background after initial render
+  }
+
+  function updateStats() {
+    const stats = document.getElementById('stats');
+    const loadedCount = visibleCards.size;
+    const totalCount = currentFonts.length;
+    stats.textContent = `Showing ${loadedCount} of ${totalCount} fonts`;
+  }
+
+  // Utility functions
+  function copyFontName(fontName) {
+    navigator.clipboard.writeText(fontName).then(() => {
+      showToast(`Copied "${fontName}" to clipboard`);
+    });
+  }
+
+  function openGoogleFonts(fontName) {
+    const url = `https://fonts.google.com/specimen/${fontName.replace(' ', '+')}`;
+    window.open(url, '_blank');
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+
     setTimeout(() => {
-      const topFonts = ['Montserrat', 'Poppins', 'Roboto', 'Open Sans', 'Raleway'];
-      topFonts.forEach(fontName => {
-        const font = fonts.find(f => f.name === fontName);
-        if (font) loadFont(font.name, font.weights);
-      });
-    }, 1000);
-  </script>
+      toast.classList.remove('show');
+    }, 3000);
+  }
+
+  function getRandomFont() {
+    const randomFont = currentFonts[Math.floor(Math.random() * currentFonts.length)];
+    const card = document.querySelector(`[data-font-name="${randomFont.name}"]`);
+
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.background = 'var(--bg-hover)';
+      setTimeout(() => {
+        card.style.background = '';
+      }, 1000);
+    }
+  }
+
+  // Event listeners
+  document.getElementById('sampleText').addEventListener('input', renderFonts);
+  document.getElementById('fontSize').addEventListener('change', renderFonts);
+  document.getElementById('fontWeight').addEventListener('change', renderFonts);
+  document.getElementById('filterStyle').addEventListener('change', filterFonts);
+  document.getElementById('randomFont').addEventListener('click', getRandomFont);
+
+  // Debounce text input
+  let textTimeout;
+  document.getElementById('sampleText').addEventListener('input', (e) => {
+    clearTimeout(textTimeout);
+    textTimeout = setTimeout(() => renderFonts(), 300);
+  });
+
+  // Initialize
+  renderFonts();
+
+  // Preload top fonts in background after initial render
+  setTimeout(() => {
+    const topFonts = ['Montserrat', 'Poppins', 'Roboto', 'Open Sans', 'Raleway'];
+    topFonts.forEach(fontName => {
+      const font = fonts.find(f => f.name === fontName);
+      if (font) loadFont(font.name, font.weights);
+    });
+  }, 1000);
+</script>
 </body>
 </html>
