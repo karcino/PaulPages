@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hannah Arendt - Intellektuelles Netzwerk</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+
+        #container {
+            display: flex;
+            height: 100vh;
+        }
+
+        #network {
+            flex: 1;
+            position: relative;
+        }
+
+        #info-panel {
+            width: 400px;
+            background: #2a2a2a;
+            padding: 30px;
+            overflow-y: auto;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            margin: 0 0 20px 0;
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        h2 {
+            margin: 30px 0 15px 0;
+            font-size: 20px;
+            font-weight: 400;
+            color: #fff;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+
+        .relationship-info {
+            background: #333;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #666;
+            transition: all 0.3s ease;
+        }
+
+        .relationship-info.highlight {
+            border-left-color: #ff6b6b;
+            background: #3a3a3a;
+        }
+
+        .relationship-type {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .relationship-description {
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        .node-label {
+            font-size: 12px;
+            pointer-events: none;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        .link-label {
+            font-size: 10px;
+            fill: #666;
+            pointer-events: none;
+        }
+
+        #legend {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(42, 42, 42, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(42, 42, 42, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        button {
+            background: #444;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #555;
+        }
+
+        .tooltip {
+            position: absolute;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="network">
+            <div id="legend">
+                <h3 style="margin: 0 0 10px 0; font-size: 14px;">Beziehungstypen</h3>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #ff6b6b;"></div>
+                    <span>Philosophische Einflüsse</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #4ecdc4;"></div>
+                    <span>Persönliche Beziehungen</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #95e1d3;"></div>
+                    <span>Intellektueller Dialog</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #f38181;"></div>
+                    <span>Schüler/Beeinflusste</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #feca57;"></div>
+                    <span>Institutionelle Verbindungen</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #a29bfe;"></div>
+                    <span>Kritische Auseinandersetzung</span>
+                </div>
+            </div>
+            <div id="controls">
+                <button onclick="resetZoom()">Zoom zurücksetzen</button>
+                <button onclick="toggleLabels()">Labels ein/aus</button>
+            </div>
+            <div class="tooltip"></div>
+        </div>
+        <div id="info-panel">
+            <h1>HANNAH ARENDT</h1>
+            <p style="color: #888; line-height: 1.6;">
+                Politische Theoretikerin (1906-1975), die das politische Denken des 20. Jahrhunderts 
+                revolutionierte. Ihre Analysen von Totalitarismus, Macht und dem menschlichen Handeln 
+                prägen bis heute unser Verständnis von Politik und Gesellschaft.
+            </p>
+            
+            <div id="selected-info">
+                <h2>Netzwerk-Übersicht</h2>
+                <p>Klicken Sie auf Knoten oder Verbindungen für detaillierte Informationen über die Beziehungen.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datenstruktur für das Netzwerk
+        const nodes = [
+            // Zentrum
+            { id: "arendt", label: "Hannah Arendt", group: "center", size: 40 },
+            
+            // Philosophische Einflüsse
+            { id: "kant", label: "Immanuel Kant", group: "influence", size: 30 },
+            { id: "heidegger", label: "Martin Heidegger", group: "influence", size: 35 },
+            { id: "jaspers", label: "Karl Jaspers", group: "influence", size: 30 },
+            { id: "augustine", label: "Augustinus", group: "influence", size: 20 },
+            { id: "aristotle", label: "Aristoteles", group: "influence", size: 25 },
+            { id: "montesquieu", label: "Montesquieu", group: "influence", size: 20 },
+            { id: "tocqueville", label: "Alexis de Tocqueville", group: "influence", size: 20 },
+            
+            // Persönliche Beziehungen
+            { id: "bluecher", label: "Heinrich Blücher", group: "personal", size: 30 },
+            { id: "benjamin", label: "Walter Benjamin", group: "personal", size: 25 },
+            { id: "mccarthy", label: "Mary McCarthy", group: "personal", size: 25 },
+            { id: "jonas", label: "Hans Jonas", group: "personal", size: 20 },
+            { id: "stern", label: "Günther Anders (Stern)", group: "personal", size: 20 },
+            { id: "varnhagen", label: "Rahel Varnhagen", group: "personal", size: 15 },
+            
+            // Intellektueller Dialog
+            { id: "scholem", label: "Gershom Scholem", group: "dialogue", size: 25 },
+            { id: "voegelin", label: "Eric Voegelin", group: "dialogue", size: 20 },
+            { id: "strauss", label: "Leo Strauss", group: "dialogue", size: 20 },
+            { id: "berlin", label: "Isaiah Berlin", group: "dialogue", size: 20 },
+            { id: "camus", label: "Albert Camus", group: "dialogue", size: 18 },
+            { id: "sartre", label: "Jean-Paul Sartre", group: "dialogue", size: 18 },
+            { id: "beauvoir", label: "Simone de Beauvoir", group: "dialogue", size: 18 },
+            
+            // Beeinflusste Denker
+            { id: "butler", label: "Judith Butler", group: "influenced", size: 25 },
+            { id: "benhabib", label: "Seyla Benhabib", group: "influenced", size: 25 },
+            { id: "young", label: "Iris Marion Young", group: "influenced", size: 20 },
+            { id: "villa", label: "Dana Villa", group: "influenced", size: 18 },
+            { id: "agamben", label: "Giorgio Agamben", group: "influenced", size: 22 },
+            { id: "mbembe", label: "Achille Mbembe", group: "influenced", size: 20 },
+            { id: "habermas", label: "Jürgen Habermas", group: "influenced", size: 25 },
+            
+            // Institutionelle Verbindungen
+            { id: "newschool", label: "New School", group: "institutional", size: 25 },
+            { id: "chicago", label: "University of Chicago", group: "institutional", size: 20 },
+            { id: "princeton", label: "Princeton", group: "institutional", size: 18 },
+            { id: "schocken", label: "Schocken Books", group: "institutional", size: 18 },
+            
+            // Kritische Auseinandersetzungen
+            { id: "eichmann", label: "Adolf Eichmann", group: "critical", size: 25 },
+            { id: "marx", label: "Karl Marx", group: "critical", size: 22 },
+            { id: "freud", label: "Sigmund Freud", group: "critical", size: 18 },
+            { id: "adorno", label: "Theodor W. Adorno", group: "critical", size: 20 }
+        ];
+
+        const links = [
+            // Philosophische Einflüsse
+            {
+                source: "kant", 
+                target: "arendt", 
+                type: "influence",
+                strength: 10,
+                label: "Urteilskraft & Moralphilosophie",
+                description: "Kants Kritik der Urteilskraft wurde zentral für Arendts späte politische Philosophie. 'Das Schöne interessiert nur in Gesellschaft' - dieser Satz Kants öffnete ihr den Weg zu einer politischen Interpretation der Urteilskraft."
+            },
+            {
+                source: "heidegger", 
+                target: "arendt", 
+                type: "influence",
+                strength: 9,
+                label: "Denken ohne Geländer",
+                description: "Trotz ihrer komplizierten persönlichen Beziehung prägte Heideggers Philosophie Arendts Denken nachhaltig. Seine Analyse der Zeitlichkeit und des In-der-Welt-Seins beeinflusste ihre Handlungstheorie."
+            },
+            {
+                source: "jaspers", 
+                target: "arendt", 
+                type: "influence",
+                strength: 10,
+                label: "Väterlicher Mentor",
+                description: "Jaspers war nicht nur Doktorvater, sondern lebenslanger Mentor. Seine Idee der 'grenzenlosen Kommunikation' prägte Arendts Verständnis des öffentlichen Raums."
+            },
+            {
+                source: "augustine", 
+                target: "arendt", 
+                type: "influence",
+                strength: 7,
+                label: "Der Liebesbegriff",
+                description: "Ihre Dissertation über den Liebesbegriff bei Augustin legte den Grundstein für ihr Verständnis von Natalität und dem Neuanfang als politische Kategorie."
+            },
+            {
+                source: "aristotle", 
+                target: "arendt", 
+                type: "influence",
+                strength: 8,
+                label: "Vita activa",
+                description: "Aristoteles' Unterscheidung zwischen bios politikos und bios theoretikos strukturierte Arendts Hauptwerk. Sie rehabilitierte das Handeln gegenüber der philosophischen Tradition."
+            },
+            {
+                source: "montesquieu", 
+                target: "arendt", 
+                type: "influence",
+                strength: 6,
+                label: "Gewaltenteilung",
+                description: "Montesquieus Analyse der Machtverteilung beeinflusste Arendts Verständnis der amerikanischen Revolution und der Rätedemokratie."
+            },
+            {
+                source: "tocqueville", 
+                target: "arendt", 
+                type: "influence",
+                strength: 6,
+                label: "Amerikanische Demokratie",
+                description: "Tocquevilles Beobachtungen zur amerikanischen Demokratie prägten Arendts positive Sicht auf die amerikanische Revolution."
+            },
+            
+            // Persönliche Beziehungen
+            {
+                source: "arendt", 
+                target: "bluecher", 
+                type: "personal",
+                strength: 10,
+                label: "Ehemann & Denker",
+                description: "Heinrich Blücher, selbst Philosoph ohne akademische Ausbildung, war Arendts wichtigster intellektueller Gesprächspartner. 'Ohne ihn hätte ich nie gelernt, politisch zu denken.'"
+            },
+            {
+                source: "benjamin", 
+                target: "arendt", 
+                type: "personal",
+                strength: 8,
+                label: "Freundschaft & Erbe",
+                description: "Arendt rettete Benjamins Manuskripte über die Pyrenäen und editierte seine Schriften. Seine Geschichtsphilosophie beeinflusste ihr Denken über Tradition und Moderne."
+            },
+            {
+                source: "arendt", 
+                target: "mccarthy", 
+                type: "personal",
+                strength: 9,
+                label: "Beste Freundin",
+                description: "25 Jahre Briefwechsel mit der Schriftstellerin Mary McCarthy. 'Die einzige Person, mit der ich über alles reden kann' - intellektueller und persönlicher Austausch."
+            },
+            {
+                source: "jonas", 
+                target: "arendt", 
+                type: "personal",
+                strength: 7,
+                label: "Studienfreund",
+                description: "Gemeinsames Studium bei Heidegger, lebenslange Freundschaft trotz Meinungsverschiedenheiten über den Eichmann-Bericht."
+            },
+            {
+                source: "stern", 
+                target: "arendt", 
+                type: "personal",
+                strength: 6,
+                label: "Erste Ehe",
+                description: "Günther Anders (Stern) war Arendts erster Ehemann. Trotz Scheidung blieben sie in losem intellektuellen Kontakt."
+            },
+            {
+                source: "varnhagen", 
+                target: "arendt", 
+                type: "personal",
+                strength: 5,
+                label: "Biographisches Subjekt",
+                description: "Arendts Biographie über die jüdische Salonière wurde zur Selbstverständigung über jüdische Identität und Assimilation."
+            },
+            
+            // Intellektueller Dialog
+            {
+                source: "arendt", 
+                target: "scholem", 
+                type: "dialogue",
+                strength: 8,
+                label: "Eichmann-Kontroverse",
+                description: "Intensiver Briefwechsel über jüdische Identität. Der Bruch nach dem Eichmann-Buch: Scholem warf ihr mangelnde 'Liebe zum jüdischen Volk' vor."
+            },
+            {
+                source: "voegelin", 
+                target: "arendt", 
+                type: "dialogue",
+                strength: 6,
+                label: "Totalitarismus-Debatte",
+                description: "Briefwechsel über die Natur des Totalitarismus. Voegelin kritisierte Arendts säkularen Ansatz, sie seine Rückführung auf 'politische Religionen'."
+            },
+            {
+                source: "strauss", 
+                target: "arendt", 
+                type: "dialogue",
+                strength: 5,
+                label: "Philosophie vs. Politik",
+                description: "Grundsätzliche Differenz über das Verhältnis von Philosophie und Politik. Strauss sah Arendt als zu 'existenzialistisch'."
+            },
+            {
+                source: "berlin", 
+                target: "arendt", 
+                type: "dialogue",
+                strength: 5,
+                label: "Freiheitsbegriff",
+                description: "Unterschiedliche Konzeptionen von Freiheit: Berlins negative Freiheit vs. Arendts positive, politische Freiheit."
+            },
+            {
+                source: "camus", 
+                target: "arendt", 
+                type: "dialogue",
+                strength: 6,
+                label: "Revolte & Revolution",
+                description: "Gemeinsames Interesse an Revolution ohne Gewalt. Camus' 'Der Mensch in der Revolte' resonierte mit Arendts Revolutionstheorie."
+            },
+            {
+                source: "sartre", 
+                target: "arendt", 
+                type: "dialogue",
+                strength: 4,
+                label: "Existenzialismus-Kritik",
+                description: "Arendt kritisierte Sartres Existenzialismus als unpolitisch und subjektivistisch."
+            },
+            {
+                source: "beauvoir", 
+                target: "arendt", 
+                type: "dialogue",
+                strength: 4,
+                label: "Feminismus-Distanz",
+                description: "Trotz thematischer Nähe distanzierte sich Arendt vom Feminismus. Beauvoir respektierte Arendts Arbeit, vermisste aber Gender-Perspektive."
+            },
+            
+            // Einfluss auf spätere Denker
+            {
+                source: "arendt", 
+                target: "butler", 
+                type: "influenced",
+                strength: 8,
+                label: "Performativität & Handeln",
+                description: "Butlers Konzept der Performativität baut auf Arendts Handlungstheorie auf. Die Idee, dass Identität durch Handeln entsteht, verbindet beide."
+            },
+            {
+                source: "arendt", 
+                target: "benhabib", 
+                type: "influenced",
+                strength: 9,
+                label: "Kritische Weiterführung",
+                description: "Benhabib entwickelt Arendts politische Theorie weiter, integriert aber feministische und kommunitaristische Perspektiven."
+            },
+            {
+                source: "arendt", 
+                target: "young", 
+                type: "influenced",
+                strength: 7,
+                label: "Strukturelle Ungerechtigkeit",
+                description: "Young nutzt Arendts Machtbegriff für ihre Theorie struktureller Ungerechtigkeit und kollektiver Verantwortung."
+            },
+            {
+                source: "arendt", 
+                target: "villa", 
+                type: "influenced",
+                strength: 6,
+                label: "Arendt-Renaissance",
+                description: "Villa gehört zu den wichtigsten Arendt-Interpreten, betont die anti-foundationalistische Dimension ihres Denkens."
+            },
+            {
+                source: "arendt", 
+                target: "agamben", 
+                type: "influenced",
+                strength: 8,
+                label: "Homo sacer",
+                description: "Agambens Analyse des 'nackten Lebens' und der Biopolitik baut auf Arendts Kritik der Menschenrechte auf."
+            },
+            {
+                source: "arendt", 
+                target: "mbembe", 
+                type: "influenced",
+                strength: 7,
+                label: "Nekropolitik",
+                description: "Mbembe erweitert Arendts Totalitarismusanalyse um koloniale und postkoloniale Perspektiven."
+            },
+            {
+                source: "arendt", 
+                target: "habermas", 
+                type: "influenced",
+                strength: 8,
+                label: "Kommunikative Macht",
+                description: "Habermas' Begriff kommunikativer Macht entwickelt Arendts Machtkonzept weiter, kritisiert aber ihren 'Dezisionismus'."
+            },
+            
+            // Institutionelle Verbindungen
+            {
+                source: "arendt", 
+                target: "newschool", 
+                type: "institutional",
+                strength: 9,
+                label: "Professorin",
+                description: "Ab 1967 Professorin an der New School for Social Research, prägte eine Generation kritischer Denker."
+            },
+            {
+                source: "arendt", 
+                target: "chicago", 
+                type: "institutional",
+                strength: 7,
+                label: "Committee on Social Thought",
+                description: "Gastprofessuren am interdisziplinären Committee on Social Thought, wichtiger Ort für ihre Kant-Vorlesungen."
+            },
+            {
+                source: "arendt", 
+                target: "princeton", 
+                type: "institutional",
+                strength: 6,
+                label: "Erste Professorin",
+                description: "1959 erste Frau mit Vollprofessur in Princeton, lehrte dort politische Theorie."
+            },
+            {
+                source: "arendt", 
+                target: "schocken", 
+                type: "institutional",
+                strength: 7,
+                label: "Lektorin & Autorin",
+                description: "Arbeitete als Lektorin bei Schocken Books, betreute die Kafka-Ausgabe und publizierte eigene Werke."
+            },
+            
+            // Kritische Auseinandersetzungen
+            {
+                source: "eichmann", 
+                target: "arendt", 
+                type: "critical",
+                strength: 10,
+                label: "Banalität des Bösen",
+                description: "Der Eichmann-Prozess führte zu Arendts umstrittenster These: Das Böse kann banal sein, ausgeführt von 'Schreibtischtätern' ohne dämonische Größe."
+            },
+            {
+                source: "marx", 
+                target: "arendt", 
+                type: "critical",
+                strength: 8,
+                label: "Arbeit vs. Handeln",
+                description: "Arendt kritisierte Marx' Fokus auf Arbeit und Produktion. Für sie verfehlte er die eigentliche politische Dimension menschlicher Existenz."
+            },
+            {
+                source: "freud", 
+                target: "arendt", 
+                type: "critical",
+                strength: 5,
+                label: "Psychologie-Kritik",
+                description: "Arendt war skeptisch gegenüber psychologischen Erklärungen politischen Handelns, sah darin eine Reduktion des Politischen."
+            },
+            {
+                source: "adorno", 
+                target: "arendt", 
+                type: "critical",
+                strength: 6,
+                label: "Gegenseitige Ablehnung",
+                description: "Adorno und Arendt lehnten sich gegenseitig ab. Er sah sie als oberflächlich, sie ihn als unpolitischen Mandarin."
+            },
+            
+            // Zusätzliche Querverbindungen für Netzwerkstruktur
+            {
+                source: "heidegger", 
+                target: "jaspers", 
+                type: "dialogue",
+                strength: 5,
+                label: "Philosophische Differenz",
+                description: "Jaspers distanzierte sich nach 1933 von Heidegger, philosophische und politische Differenzen."
+            },
+            {
+                source: "benjamin", 
+                target: "scholem", 
+                type: "personal",
+                strength: 7,
+                label: "Jugendfreundschaft",
+                description: "Lebenslange Freundschaft und intellektueller Austausch über Judaismus und Messianismus."
+            },
+            {
+                source: "benjamin", 
+                target: "adorno", 
+                type: "dialogue",
+                strength: 6,
+                label: "Frankfurter Schule",
+                description: "Komplizierte Beziehung, Adorno editierte später Benjamins Werke."
+            },
+            {
+                source: "jonas", 
+                target: "heidegger", 
+                type: "influence",
+                strength: 5,
+                label: "Schüler",
+                description: "Jonas war wie Arendt Heidegger-Schüler, brach aber nach 1933 mit ihm."
+            },
+            {
+                source: "strauss", 
+                target: "heidegger", 
+                type: "critical",
+                strength: 4,
+                label: "Philosophische Kritik",
+                description: "Strauss kritisierte Heideggers Historismus und Nihilismus."
+            },
+            {
+                source: "habermas", 
+                target: "adorno", 
+                type: "influence",
+                strength: 7,
+                label: "Frankfurter Schule",
+                description: "Habermas war Adornos Assistent, entwickelte die Kritische Theorie weiter."
+            },
+            {
+                source: "butler", 
+                target: "beauvoir", 
+                type: "influence",
+                strength: 6,
+                label: "Gender-Theorie",
+                description: "Butler baut auf Beauvoirs Unterscheidung von Sex und Gender auf."
+            },
+            {
+                source: "marx", 
+                target: "habermas", 
+                type: "influence",
+                strength: 5,
+                label: "Kritische Theorie",
+                description: "Habermas' frühe Arbeiten stehen in marxistischer Tradition."
+            }
+        ];
+
+        // Farbschema
+        const colors = {
+            center: "#fff",
+            influence: "#ff6b6b",
+            personal: "#4ecdc4",
+            dialogue: "#95e1d3",
+            influenced: "#f38181",
+            institutional: "#feca57",
+            critical: "#a29bfe"
+        };
+
+        // SVG Setup
+        const width = window.innerWidth - 400;
+        const height = window.innerHeight;
+        
+        const svg = d3.select("#network")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        // Zoom-Funktionalität
+        const zoom = d3.zoom()
+            .scaleExtent([0.5, 3])
+            .on("zoom", (event) => {
+                container.attr("transform", event.transform);
+            });
+
+        svg.call(zoom);
+
+        const container = svg.append("g");
+
+        // Tooltip
+        const tooltip = d3.select(".tooltip");
+
+        // Force Simulation mit stärkeren Kräften für bessere Verteilung
+        const simulation = d3.forceSimulation(nodes)
+            .force("link", d3.forceLink(links).id(d => d.id).distance(d => 180 - d.strength * 15))
+            .force("charge", d3.forceManyBody().strength(-400))
+            .force("center", d3.forceCenter(width / 2, height / 2))
+            .force("collision", d3.forceCollide().radius(d => d.size + 30))
+            .force("x", d3.forceX(width / 2).strength(0.05))
+            .force("y", d3.forceY(height / 2).strength(0.05));
+
+        // Links
+        const link = container.append("g")
+            .selectAll("line")
+            .data(links)
+            .enter().append("line")
+            .attr("stroke", d => colors[d.type])
+            .attr("stroke-width", d => Math.sqrt(d.strength))
+            .attr("stroke-opacity", 0.6)
+            .style("cursor", "pointer")
+            .on("click", showLinkInfo)
+            .on("mouseover", function(event, d) {
+                d3.select(this).attr("stroke-opacity", 1);
+                tooltip.style("opacity", 1)
+                    .html(`<strong>${d.label}</strong><br>${d.type}`)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 10) + "px");
+            })
+            .on("mouseout", function(event, d) {
+                d3.select(this).attr("stroke-opacity", 0.6);
+                tooltip.style("opacity", 0);
+            });
+
+        // Nodes
+        const node = container.append("g")
+            .selectAll("g")
+            .data(nodes)
+            .enter().append("g")
+            .style("cursor", "pointer")
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));
+
+        node.append("circle")
+            .attr("r", d => d.size)
+            .attr("fill", d => colors[d.group])
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 2)
+            .on("click", showNodeInfo)
+            .on("mouseover", function(event, d) {
+                d3.select(this).attr("r", d.size * 1.2);
+            })
+            .on("mouseout", function(event, d) {
+                d3.select(this).attr("r", d.size);
+            });
+
+        // Labels
+        const labels = node.append("text")
+            .text(d => d.label)
+            .attr("class", "node-label")
+            .attr("x", d => d.size + 5)
+            .attr("y", 3)
+            .attr("fill", "#fff");
+
+        // Simulation
+        simulation.on("tick", () => {
+            link
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            node.attr("transform", d => `translate(${d.x},${d.y})`);
+        });
+
+        // Interaktionsfunktionen
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        function showNodeInfo(event, d) {
+            const connections = links.filter(l => l.source.id === d.id || l.target.id === d.id);
+            
+            let html = `<h2>${d.label}</h2>`;
+            
+            if (d.id === "arendt") {
+                html += `<p>Im Zentrum des Netzwerks: Hannah Arendt verband philosophische Traditionen, 
+                        persönliche Beziehungen und politisches Denken zu einer einzigartigen Theorie des Handelns.</p>`;
+            }
+            
+            if (connections.length > 0) {
+                html += `<h3 style="margin-top: 20px;">Verbindungen:</h3>`;
+                
+                // Gruppiere Verbindungen nach Typ
+                const grouped = {};
+                connections.forEach(conn => {
+                    if (!grouped[conn.type]) grouped[conn.type] = [];
+                    grouped[conn.type].push(conn);
+                });
+                
+                // Zeige Verbindungen nach Typ sortiert
+                Object.entries(grouped).forEach(([type, conns]) => {
+                    conns.forEach(conn => {
+                        const other = conn.source.id === d.id ? conn.target : conn.source;
+                        const direction = conn.source.id === d.id ? "→" : "←";
+                        html += `
+                            <div class="relationship-info">
+                                <div class="relationship-type">${conn.type} ${direction} ${other.label}</div>
+                                <div class="relationship-description">${conn.description}</div>
+                            </div>
+                        `;
+                    });
+                });
+            }
+            
+            document.getElementById("selected-info").innerHTML = html;
+        }
+
+        function showLinkInfo(event, d) {
+            const html = `
+                <h2>${d.source.label} ↔ ${d.target.label}</h2>
+                <div class="relationship-info highlight">
+                    <div class="relationship-type">${d.type} - ${d.label}</div>
+                    <div class="relationship-description">${d.description}</div>
+                </div>
+            `;
+            document.getElementById("selected-info").innerHTML = html;
+        }
+
+        // Kontroll-Funktionen
+        function resetZoom() {
+            svg.transition()
+                .duration(750)
+                .call(zoom.transform, d3.zoomIdentity);
+        }
+
+        let labelsVisible = true;
+        function toggleLabels() {
+            labelsVisible = !labelsVisible;
+            labels.style("display", labelsVisible ? "block" : "none");
+        }
+
+        // Initial Info anzeigen
+        showNodeInfo(null, nodes.find(n => n.id === "arendt"));
+
+        // Netzwerk-Analyse Funktionen
+        function highlightPath(nodeId) {
+            // Dimme alle Elemente
+            node.style("opacity", 0.2);
+            link.style("opacity", 0.1);
+            
+            // Finde alle verbundenen Knoten
+            const connected = new Set([nodeId]);
+            const relevantLinks = [];
+            
+            links.forEach(l => {
+                if (l.source.id === nodeId || l.target.id === nodeId) {
+                    connected.add(l.source.id);
+                    connected.add(l.target.id);
+                    relevantLinks.push(l);
+                }
+            });
+            
+            // Highlighte verbundene Elemente
+            node.filter(d => connected.has(d.id))
+                .style("opacity", 1);
+            
+            link.filter(d => relevantLinks.includes(d))
+                .style("opacity", 0.8);
+        }
+
+        function resetHighlight() {
+            node.style("opacity", 1);
+            link.style("opacity", 0.6);
+        }
+
+        // Füge Hover-Effekte für Pfad-Highlighting hinzu
+        node.on("mouseenter", function(event, d) {
+            if (!event.buttons) { // Nur wenn nicht gedraggt wird
+                highlightPath(d.id);
+            }
+        }).on("mouseleave", function(event, d) {
+            if (!event.buttons) {
+                resetHighlight();
+            }
+        });
+    </script>
+</body>
+</html>
