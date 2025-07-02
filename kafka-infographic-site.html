@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafkas Körper - Kafka's Body</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #d4c5b9;
+            color: #2a2a2a;
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #e8ddd4;
+            min-height: 100vh;
+            position: relative;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        .header h2 {
+            font-size: 32px;
+            font-weight: 300;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        .kafka-figure {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 400px;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 0.5s forwards;
+        }
+
+        .kafka-silhouette {
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            position: relative;
+            clip-path: polygon(
+                40% 0%, 60% 0%, 65% 5%, 70% 15%, 72% 25%,
+                75% 35%, 80% 45%, 85% 60%, 85% 85%, 80% 95%,
+                75% 100%, 25% 100%, 20% 95%, 15% 85%, 15% 60%,
+                20% 45%, 25% 35%, 28% 25%, 30% 15%, 35% 5%
+            );
+        }
+
+        .kafka-hat {
+            position: absolute;
+            width: 120px;
+            height: 60px;
+            background-color: #1a1a1a;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .info-box {
+            background-color: #f5f0ea;
+            border: 2px solid #3a3a3a;
+            padding: 20px;
+            margin: 20px;
+            position: absolute;
+            font-size: 12px;
+            line-height: 1.6;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            opacity: 0;
+            animation: slideIn 0.8s ease-out forwards;
+            transition: transform 0.3s ease;
+        }
+
+        .info-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.15);
+        }
+
+        .info-box h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .info-box.top-left {
+            top: 100px;
+            left: 60px;
+            width: 300px;
+            animation-delay: 1s;
+        }
+
+        .info-box.top-right {
+            top: 100px;
+            right: 60px;
+            width: 300px;
+            animation-delay: 1.2s;
+        }
+
+        .info-box.bottom-left {
+            bottom: 100px;
+            left: 60px;
+            width: 280px;
+            animation-delay: 1.4s;
+        }
+
+        .info-box.bottom-right {
+            bottom: 100px;
+            right: 60px;
+            width: 320px;
+            animation-delay: 1.6s;
+        }
+
+        .info-box.center-left {
+            top: 50%;
+            left: 60px;
+            transform: translateY(-50%);
+            width: 250px;
+            animation-delay: 1.8s;
+        }
+
+        .connector-line {
+            position: absolute;
+            background-color: #3a3a3a;
+            transform-origin: left center;
+            height: 2px;
+            opacity: 0;
+            animation: drawLine 1s ease-out forwards;
+        }
+
+        .connector-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: #3a3a3a;
+            border-radius: 50%;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .date-marker {
+            position: absolute;
+            background-color: #3a3a3a;
+            color: #f5f0ea;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .sport-icons {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            align-items: center;
+        }
+
+        .sport-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #3a3a3a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f5f0ea;
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .sport-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .diagnosis-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .diagnosis-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+
+        .diagnosis-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes drawLine {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+            to {
+                width: var(--line-length, 200px);
+                opacity: 1;
+            }
+        }
+
+        .quote-box {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-style: italic;
+            font-size: 14px;
+            max-width: 400px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2s forwards;
+        }
+
+        @media (max-width: 1200px) {
+            .info-box {
+                position: relative;
+                margin: 20px auto;
+                max-width: 500px;
+            }
+            
+            .kafka-figure {
+                position: relative;
+                margin: 40px auto;
+                transform: none;
+                left: auto;
+                top: auto;
+            }
+            
+            .connector-line,
+            .connector-dot {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="header">
+            <h1>Kafkas Körper</h1>
+            <h2>Kafka's Body</h2>
+        </div>
+
+        <div class="kafka-figure">
+            <div class="kafka-hat"></div>
+            <div class="kafka-silhouette"></div>
+        </div>
+
+        <!-- Connecting lines -->
+        <div class="connector-line" style="top: 250px; left: 360px; width: 200px; transform: rotate(-25deg); animation-delay: 1.2s;"></div>
+        <div class="connector-dot" style="top: 245px; left: 350px; animation-delay: 1.1s;"></div>
+        
+        <div class="connector-line" style="top: 250px; right: 360px; width: 200px; transform: rotate(25deg); transform-origin: right center; animation-delay: 1.4s;"></div>
+        <div class="connector-dot" style="top: 245px; right: 350px; animation-delay: 1.3s;"></div>
+        
+        <div class="connector-line" style="top: 50%; left: 310px; width: 250px; transform: rotate(0deg); animation-delay: 1.8s;"></div>
+        <div class="connector-dot" style="top: 50%; left: 300px; transform: translateY(-50%); animation-delay: 1.7s;"></div>
+        
+        <div class="connector-line" style="bottom: 250px; left: 340px; width: 220px; transform: rotate(20deg); animation-delay: 1.5s;"></div>
+        <div class="connector-dot" style="bottom: 245px; left: 330px; animation-delay: 1.4s;"></div>
+        
+        <div class="connector-line" style="bottom: 250px; right: 380px; width: 180px; transform: rotate(-20deg); transform-origin: right center; animation-delay: 1.7s;"></div>
+        <div class="connector-dot" style="bottom: 245px; right: 370px; animation-delay: 1.6s;"></div>
+
+        <div class="info-box top-left" data-connection="top-left">
+            <h3>Schreiben & Krankheit</h3>
+            <p>Kafka vergleicht das Schreiben mit einer Geburt. Kafka compared writing to giving birth.</p>
+            <ul class="diagnosis-list">
+                <li>Die Verwundung / The Metamorphosis</li>
+                <li>Ein Landarzt / A Country Doctor</li>
+                <li>In der Strafkolonie / In the Penal Colony</li>
+                <li>Ein Hungerkünstler / A Hunger Artist</li>
+            </ul>
+        </div>
+
+        <div class="info-box top-right">
+            <h3>Konstitution & Physique</h3>
+            <p>Max Brod beschrieb Kafkas athletische graue Augen. "Feeling gray eyes"</p>
+            <p>1.82 m groß / 1.82 m tall<br>
+            schlanke / slender</p>
+            <p>Kafka schreibt in der Konditorei für ein schwarzes Heft. Writes in cafes.</p>
+        </div>
+
+        <div class="info-box center-left">
+            <h3>Judentum / Judaism</h3>
+            <p>In Kafkas Zeiten antisemitische Vorstellungen vom "Muskelspielentum"</p>
+            <p>In Kafka's time: Zionist ideas of "muscular Jewry"</p>
+            <date-marker style="margin-top: 10px;">1917</date-marker>
+        </div>
+
+        <div class="info-box bottom-left">
+            <h3>Sport & Sports</h3>
+            <div class="sport-icons">
+                <div class="sport-icon">🏊</div>
+                <div class="sport-icon">🚣</div>
+                <div class="sport-icon">🏃</div>
+                <div class="sport-icon">⛷️</div>
+            </div>
+            <p style="margin-top: 15px;">schwimmen und rudern / swimming and rowing<br>
+            geht wandern und spazieren / walks and hikes</p>
+        </div>
+
+        <div class="info-box bottom-right">
+            <h3>Krankheit & Disease</h3>
+            <p><strong>Herbst 1917:</strong> Diagnose der Tuberkulose<br>
+            Autumn 1917: diagnosis of his tuberculosis</p>
+            <p>Kafka an Max Brod, September 1917: "Menschmal schaue es aus, Gehirn und Lunge hätten sich ohne mein Wissen verständigt."</p>
+            <p>Kafka to Max Brod, September 1917: "Sometimes it seems to me that the brain and lungs have come to an agreement without my knowledge."</p>
+            <p style="margin-top: 10px; font-size: 11px;">Kafka stirbt am 3. Juni 1924.<br>
+            Kafka died on June 3, 1924.</p>
+        </div>
+
+        <div class="quote-box">
+            <p>"Ich bin nichts als Literatur und kann und will auch nichts anderes sein."</p>
+            <p style="margin-top: 10px; font-size: 12px; opacity: 0.8;">"I am nothing but literature and can and will be nothing else."</p>
+        </div>
+    </div>
+
+    <script>
+        // Add interactive hover effects
+        document.querySelectorAll('.info-box').forEach((box, index) => {
+            box.addEventListener('mouseenter', function() {
+                this.style.zIndex = 20;
+            });
+            
+            box.addEventListener('mouseleave', function() {
+                this.style.zIndex = 'auto';
+            });
+        });
+
+        // Add parallax effect on mouse move
+        document.addEventListener('mousemove', (e) => {
+            const kafkaFigure = document.querySelector('.kafka-figure');
+            const x = (e.clientX - window.innerWidth / 2) / 50;
+            const y = (e.clientY - window.innerHeight / 2) / 50;
+            
+            if (kafkaFigure && window.innerWidth > 1200) {
+                kafkaFigure.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+            }
+        });
+    </script>
+</body>
+</html>
