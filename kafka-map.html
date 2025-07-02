@@ -3,140 +3,157 @@
 <head>
   <meta charset="UTF-8">
   <title>Kafkas Körper / Kafka's Body</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      background: #faf8f4;
-      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #faf7f1;
       margin: 0;
       padding: 0;
     }
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 40px 16px;
-      position: relative;
-      min-height: 100vh;
-    }
-    .center-img {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -60%);
-      width: 180px;
-      z-index: 10;
-      border-radius: 8px;
-      border: 2px solid #222;
+    .tree {
+      margin: 32px auto;
+      max-width: 1200px;
       background: #fff;
-      box-shadow: 0 4px 20px #0002;
+      border-radius: 18px;
+      padding: 32px 24px;
+      position: relative;
+      box-shadow: 0 3px 28px #0001;
     }
-    .title {
-      position: absolute;
-      left: 10%;
-      top: 8%;
+    .tree-title {
       font-size: 2.5rem;
       font-weight: bold;
-      line-height: 1.1;
+      margin-bottom: 8px;
     }
-    .subtitle {
-      position: absolute;
-      left: 10%;
-      top: 15%;
+    .tree-sub {
+      margin-bottom: 28px;
       font-size: 1.2rem;
       color: #444;
-      width: 350px;
+      font-style: italic;
     }
-    .category {
-      position: absolute;
-      width: 320px;
-      background: #fff;
-      border-radius: 16px;
+    .tree-root {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+    }
+    .kafka-img {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 30px;
+    }
+    .kafka-img img {
+      width: 150px;
+      border-radius: 8px;
+      margin-bottom: 5px;
+    }
+    .nodes {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      min-width: 330px;
+    }
+    .node {
+      background: #faf9f6;
+      border: 1.5px solid #e2e2e2;
+      border-radius: 13px;
+      padding: 18px 22px 12px 22px;
       box-shadow: 0 2px 10px #0001;
-      padding: 18px 22px 18px 22px;
-      font-size: 1rem;
-      border: 1px solid #e3e1de;
+      font-size: 1.01rem;
+      position: relative;
     }
-    /* Beispielpositionen, kannst du anpassen */
-    .schreiben { left: 55%; top: 7%; }
-    .sex { left: 7%; top: 24%; }
-    .juden { left: 5%; top: 45%; }
-    .sport { left: 13%; top: 72%; }
-    .konstitution { left: 72%; top: 22%; }
-    .nahrung { left: 78%; top: 37%; }
-    .mindset { left: 74%; top: 58%; }
-    .arbeit { left: 60%; top: 12%; }
-    .krankheit { left: 41%; top: 80%; }
-
-    @media (max-width: 900px) {
-      .category, .center-img, .title, .subtitle { position: static; transform: none; margin: 18px auto; }
-      .container { padding: 12px; }
+    .node strong {
+      display: block;
+      font-size: 1.14em;
+      margin-bottom: 2px;
+      font-weight: bold;
+    }
+    .subnodes {
+      margin-top: 7px;
+      padding-left: 18px;
+      border-left: 2px solid #d6d6d6;
+    }
+    /* Responsive: stack nodes vertically */
+    @media (max-width: 950px) {
+      .tree-root {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .nodes { min-width: unset; width: 100%; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="title">Kafkas Körper<br><span style="font-size:1.4rem">Kafka's Body</span></div>
-    <div class="subtitle">
+  <div class="tree">
+    <div class="tree-title">Kafkas Körper <span style="font-size:1.6rem;font-weight:400;display:block;">Kafka's Body</span></div>
+    <div class="tree-sub">
       Die Bedeutung des Körpers ist bei Kafka sowohl biografisch als auch literarisch zentral.<br>
-      <i>The significance of the body is central to both Kafka's biography and his literature.</i>
+      <span style="font-style:italic">The significance of the body is central to both Kafka's biography and his literature.</span>
     </div>
-    <img class="center-img" src="https://upload.wikimedia.org/wikipedia/commons/2/27/Kafka1917.jpg" alt="Kafka" />
-
-    <div class="category schreiben">
-      <strong>Schreiben / Writing</strong><br>
-      Kafka vergleicht das Schreiben mit einer Geburt.<br>
-      Kafka compares writing to birth.<br>
-      <ul>
-        <li>Schrieb oft nachts / wrote mostly at night</li>
-        <li>Niemals verheiratet / never married</li>
-      </ul>
-    </div>
-    <div class="category sex">
-      <strong>Sex</strong><br>
-      mehrfach verlobt / engaged several times<br>
-      besuchte Bordelle / visited brothels<br>
-      hat Freundinnen / had girlfriends<br>
-      ist beschnitten / was circumcised
-    </div>
-    <div class="category juden">
-      <strong>Judentum / Judaism</strong><br>
-      schwach / weak<br>
-      kränklich / ailing<br>
-      feminin / effeminate
-    </div>
-    <div class="category sport">
-      <strong>Sport / Sports</strong><br>
-      Kafka ist sportlich / sporty Kafka<br>
-      schwimmt viel / swimming<br>
-      geht wandern / walks and hikes
-    </div>
-    <div class="category konstitution">
-      <strong>Konstitution / Physique</strong><br>
-      schlank / slender<br>
-      1,82 m groß / 1.82 m tall<br>
-      graue Haare / gray hair
-    </div>
-    <div class="category nahrung">
-      <strong>Nahrung / Food</strong><br>
-      bevorzugt vegetarisch / prefers vegetarian<br>
-      isst gerne Nüsse und Trockenfrüchte / enjoys nuts and dried fruits<br>
-      asketisch / ascetic
-    </div>
-    <div class="category mindset">
-      <strong>Mindset</strong><br>
-      lärmempfindlich / sensitive to noise<br>
-      neurasthenisch / neurasthenic<br>
-      Körper und Geist sind eng verbunden / body and mind are closely linked
-    </div>
-    <div class="category arbeit">
-      <strong>Arbeit / Work</strong><br>
-      pflichtbewusst / dutiful<br>
-      Max Brod beschreibt Kafka als strengen Vegetarier / Max Brod characterizes Kafka as a strict vegetarian
-    </div>
-    <div class="category krankheit">
-      <strong>Krankheit / Disease</strong><br>
-      häufiger Aufenthalt im Sanatorium / regular stays in sanatoriums<br>
-      stirbt am 3. Juni 1924 an Tuberkulose / died of tuberculosis on June 3, 1924
+    <div class="tree-root">
+      <div class="nodes">
+        <div class="node">
+          <strong>Schreiben / Writing</strong>
+          Kafka vergleicht das Schreiben mit einer Geburt.<br>
+          <div class="subnodes">
+            <div class="node">
+              <strong>Arbeit / Work</strong>
+              pflichtbewusst / dutiful<br>
+              Max Brod beschreibt Kafka als strengen Vegetarier.<br>
+              Max Brod characterizes Kafka as a strict vegetarian.
+            </div>
+          </div>
+        </div>
+        <div class="node">
+          <strong>Sex</strong>
+          mehrfach verlobt / engaged several times<br>
+          besuchte Bordelle / visited brothels<br>
+          hat Freundinnen / had girlfriends<br>
+          ist beschnitten / was circumcised
+        </div>
+        <div class="node">
+          <strong>Judentum / Judaism</strong>
+          schwach / weak<br>
+          kränklich / ailing<br>
+          feminin / effeminate
+        </div>
+        <div class="node">
+          <strong>Sport / Sports</strong>
+          Kafka ist sportlich / sporty Kafka<br>
+          schwimmt viel / swimming<br>
+          geht wandern / walks and hikes
+        </div>
+      </div>
+      <div class="kafka-img">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Kafka1917.jpg" alt="Kafka"/>
+        <div style="font-size:1rem;color:#888;margin-top:2px;">Kafka</div>
+      </div>
+      <div class="nodes">
+        <div class="node">
+          <strong>Konstitution / Physique</strong>
+          schlank / slender<br>
+          1,82 m groß / 1.82 m tall<br>
+          graue Haare / gray hair
+        </div>
+        <div class="node">
+          <strong>Nahrung / Food</strong>
+          bevorzugt vegetarisch / prefers vegetarian<br>
+          isst gerne Nüsse und Trockenfrüchte / enjoys nuts and dried fruits<br>
+          asketisch / ascetic
+        </div>
+        <div class="node">
+          <strong>Mindset</strong>
+          lärmempfindlich / sensitive to noise<br>
+          neurasthenisch / neurasthenic<br>
+          Körper und Geist sind eng verbunden / body and mind are closely linked
+        </div>
+        <div class="node">
+          <strong>Krankheit / Disease</strong>
+          häufiger Aufenthalt im Sanatorium / regular stays in sanatoriums<br>
+          stirbt am 3. Juni 1924 an Tuberkulose / died of tuberculosis on June 3, 1924
+        </div>
+      </div>
     </div>
   </div>
 </body>
